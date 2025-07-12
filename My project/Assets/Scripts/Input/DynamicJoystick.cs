@@ -4,13 +4,13 @@ using UnityEngine.EventSystems;
 public class DynamicJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     [HideInInspector] public Vector2 input = Vector2.zero;
+    [HideInInspector] public bool isSprinting;
 
     [SerializeField] private RectTransform joystickBackground;
     [SerializeField] private RectTransform joystickHandle;
     [SerializeField] private float joystickRadius = 60f;
 
-    private Vector2 startPos;
-    private bool isActive;
+    private bool isJoystickActive;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -21,35 +21,21 @@ public class DynamicJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     // Update is called once per frame
     private void Update()
     {
-        //CheckScreenTouch();
+        if (!isJoystickActive)
+            return;
+
+        CheckScreenTouch();
     }
 
     private void CheckScreenTouch()
     {
-        if (!isActive)
-        {
-            if (Input.touchCount > 0)
-            {
-                Touch touch = Input.GetTouch(0);
-                if (touch.phase == TouchPhase.Began && touch.position.y < Screen.height / 2)
-                {
-                    Debug.Log("Touched");
-                    ActivateJoystick(touch.position);
-                }
-            }
-
-            #if UNITY_EDITOR
-            //Editor fallback
-            if (Input.GetMouseButtonDown(0) && Input.mousePosition.y < Screen.height / 2)
-            {
-                ActivateJoystick(Input.mousePosition);
-            }
-            #endif
-        }
+        isSprinting = Input.touchCount > 1;
     }
 
     private void ActivateJoystick(Vector2 screenPosition)
     {
+        isJoystickActive = true;
+
         // Move joystick BG to finger position
         joystickBackground.gameObject.SetActive(true);
 
@@ -63,13 +49,12 @@ public class DynamicJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         );
         joystickBackground.anchoredPosition = pos;
         joystickHandle.anchoredPosition = Vector2.zero;
-        isActive = true;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         // Required for mobile touch
-        if (!isActive)
+        if (!isJoystickActive)
         {
             ActivateJoystick(eventData.position);
         }
@@ -81,7 +66,7 @@ public class DynamicJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         joystickBackground.gameObject.SetActive(false);
         joystickHandle.anchoredPosition = Vector2.zero;
         input = Vector2.zero;
-        isActive = false;
+        isJoystickActive = false;
     }
 
     public void OnDrag(PointerEventData eventData)
