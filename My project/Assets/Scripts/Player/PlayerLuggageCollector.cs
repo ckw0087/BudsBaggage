@@ -1,7 +1,9 @@
 using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerLuggageCollector : MonoBehaviour
 {
@@ -10,7 +12,9 @@ public class PlayerLuggageCollector : MonoBehaviour
     [SerializeField] private float _luggageOffset = 0.2f;
     [SerializeField] private LayerMask _luggageLayer;
 
-    private List<Luggage> _carriedLuggage = new List<Luggage>();
+    public List<Luggage> CarriedLuggage { get; private set; } = new List<Luggage>();
+
+    public event Action OnLuggageAmountChanged;
 
     private void Update()
     {
@@ -22,11 +26,13 @@ public class PlayerLuggageCollector : MonoBehaviour
                 if (luggage.Collected)
                     continue;
 
-                _carriedLuggage.Add(luggage);
+                CarriedLuggage.Add(luggage);
+                OnLuggageAmountChanged?.Invoke();
+
                 luggage.Collect();
                 luggage.transform.SetParent(_luggageBase);
                 //luggage.transform.localPosition = Vector3.up * (_amountOfLuggages - 1) * _luggageOffset;
-                luggage.transform.DOLocalMove(Vector3.up * (_carriedLuggage.Count - 1) * _luggageOffset, 0.2f);
+                luggage.transform.DOLocalMove(Vector3.up * (CarriedLuggage.Count - 1) * _luggageOffset, 0.2f);
                 luggage.transform.localRotation = Quaternion.identity;
             }
         }
@@ -36,18 +42,25 @@ public class PlayerLuggageCollector : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<LuggageDeposit>(out LuggageDeposit deposit))
         {
-            for (int i = _carriedLuggage.Count - 1; i >= 0; i--)
+            for (int i = CarriedLuggage.Count - 1; i >= 0; i--)
             {
-                Luggage luggage = _carriedLuggage[i];
+                Luggage luggage = CarriedLuggage[i];
                 luggage.SetOutline(true);
                 luggage.transform.SetParent(null);
                 luggage.transform.localScale = Vector3.one;
                 luggage.transform.DOMove(transform.position + Vector3.up * 1f + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), 0.2f);
-                luggage.transform.DOMove(collision.gameObject.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (_carriedLuggage.Count - i)).OnComplete(() => deposit.Deposit(luggage));
+                luggage.transform.DOMove(collision.gameObject.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (CarriedLuggage.Count - i)).OnComplete(() =>
+                {
+                    deposit.Deposit(luggage);
+                    CarriedLuggage.Remove(luggage);
+                    OnLuggageAmountChanged?.Invoke();
+                });
                 luggage.transform.rotation = Quaternion.identity;
             }
 
-            _carriedLuggage.Clear();
+            //CarriedLuggage.Clear();
+            OnLuggageAmountChanged?.Invoke();
+
             /*foreach (var luggage in _carriedLuggage)
             {
                 luggage.transform.SetParent(null);
@@ -60,7 +73,7 @@ public class PlayerLuggageCollector : MonoBehaviour
 
     public void DropLuggages()
     {
-        foreach (var luggage in _carriedLuggage)
+        foreach (var luggage in CarriedLuggage)
         {
             float dropTime = Random.Range(0.5f, 1f);
             luggage.transform.DOMoveX(transform.position.x + Random.Range(-2f, 2f), dropTime).SetEase(Ease.Linear);
@@ -68,7 +81,8 @@ public class PlayerLuggageCollector : MonoBehaviour
             luggage.transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(-90f, 90f));
             luggage.transform.SetParent(null);
         }
-        _carriedLuggage.Clear();
+        CarriedLuggage.Clear();
+        OnLuggageAmountChanged?.Invoke();
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
