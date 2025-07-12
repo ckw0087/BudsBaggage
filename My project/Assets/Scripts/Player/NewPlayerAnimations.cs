@@ -1,12 +1,12 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class PlayerAnimations : MonoBehaviour
+public class NewPlayerAnimations : MonoBehaviour
 {
     //Hashes
     private static readonly int IS_MOVING_HASH = Animator.StringToHash("isMoving");
 
-    [SerializeField] private PlayerMovement _playerMovement;
+    [SerializeField] private NewPlayerMovement _playerMovement;
     [SerializeField] private Transform _luggageBase;
     [SerializeField] private Animator _animator;
 

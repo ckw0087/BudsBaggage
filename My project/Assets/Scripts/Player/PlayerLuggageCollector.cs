@@ -34,16 +34,25 @@ public class PlayerLuggageCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.LogWarning("deposit");
         if (collision.gameObject.TryGetComponent<LuggageDeposit>(out LuggageDeposit deposit))
         {
-            foreach (var luggage in _carriedLuggage)
+            for (int i = _carriedLuggage.Count - 1; i >= 0; i--)
+            {
+                Luggage luggage = _carriedLuggage[i];
+                luggage.transform.SetParent(null);
+                luggage.transform.DOMove(transform.position + Vector3.up * 1f + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), 0.2f);
+                luggage.transform.DOMove(collision.gameObject.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (_carriedLuggage.Count - i)).OnComplete(() => deposit.Deposit(luggage));
+                luggage.transform.rotation = Quaternion.identity;
+            }
+
+            _carriedLuggage.Clear();
+            /*foreach (var luggage in _carriedLuggage)
             {
                 luggage.transform.SetParent(null);
                 luggage.transform.DOMove(collision.gameObject.transform.position, 0.25f).OnComplete(() => Destroy(luggage.gameObject));
                 luggage.transform.rotation = Quaternion.identity;
             }
-            _carriedLuggage.Clear();
+            _carriedLuggage.Clear();*/
         }
     }
 
