@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 startPosition;
     private Vector2 endPosition;
 
+    public bool IsMoving { get; private set; }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveDir = new Vector3(dir.x, dir.y, 0).normalized;
         transform.position += moveSpeed * Time.deltaTime * moveDir;
         Debug.Log(dir);
+
+        IsMoving = dir.magnitude > 0.01f;
         //Debug.Log(moveDir);
     }
 
