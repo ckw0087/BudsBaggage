@@ -9,6 +9,7 @@ public class Luggage : MonoBehaviour
 
     private Collider2D _luggageCollider;
     private SpriteRenderer _spriteRenderer;
+    private Material _material;
 
     public event Action<Luggage> OnCollected;
 
@@ -16,6 +17,7 @@ public class Luggage : MonoBehaviour
     {
         _luggageCollider = GetComponent<Collider2D>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _material = _spriteRenderer.material;
 
         if (_luggageSprite != null)
         {
@@ -29,5 +31,10 @@ public class Luggage : MonoBehaviour
         Collected = true;
         _luggageCollider.enabled = false;
         OnCollected?.Invoke(this);
+    }
+
+    public void SetOutline(bool outlined)
+    {
+        _material.SetInt("_DisplayOutline", outlined ? 1 : 0);
     }
 }
