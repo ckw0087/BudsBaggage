@@ -321,10 +321,10 @@ MonoBehaviour:
   joystick: {fileID: 852665591}
   luggage: {fileID: 1787596486}
   moveSpeed: 5
-  minMoveSpeed: 5
+  minMoveSpeed: 2
   sprintMultiplier: 2
   weightMultiplier: 5
-  speedBoostMultiplier: 10
+  speedBoostMultiplier: 0.05
   speedBoostDuration: 5
 --- !u!114 &48420627
 MonoBehaviour:
