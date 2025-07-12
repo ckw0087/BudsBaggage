@@ -111,13 +111,31 @@ public class PlayerLuggageCollector : MonoBehaviour
     {
         if (GameObject.FindGameObjectWithTag("Deposit").TryGetComponent<LuggageDeposit>(out LuggageDeposit deposit))
         {
-            foreach (var luggage in CarriedLuggage)
+            for (int i = CarriedLuggage.Count - 1; i >= 0; i--)
             {
-                luggage.transform.SetParent(null);
-                luggage.transform.DOMove(deposit.transform.position, 0.25f).OnComplete(() => Destroy(luggage.gameObject));
+                Luggage luggage = CarriedLuggage[i];
+                luggage.transform.SetParent(null, true);
+                luggage.SetOutline(true);
+                luggage.transform.localScale = Vector3.one;
+                luggage.transform.DOMove(transform.position + Vector3.up * 1f + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), 0.2f);
+                luggage.transform.DOMove(transform.position, 0.25f).SetDelay(0.2f + 0.1f * (CarriedLuggage.Count - i)).OnComplete(() =>
+                {
+                    deposit.Deposit(luggage);
+                    CarriedLuggage.Remove(luggage);
+                    OnLuggageAmountChanged?.Invoke();
+                });
                 luggage.transform.rotation = Quaternion.identity;
             }
-            CarriedLuggage.Clear();
+
+            OnLuggageAmountChanged?.Invoke();
+
+            //foreach (var luggage in CarriedLuggage)
+            //{
+            //    luggage.transform.SetParent(null);
+            //    luggage.transform.DOMove(deposit.transform.position, 0.25f).OnComplete(() => Destroy(luggage.gameObject));
+            //    luggage.transform.rotation = Quaternion.identity;
+            //}
+            //CarriedLuggage.Clear();
         }
     }
 }

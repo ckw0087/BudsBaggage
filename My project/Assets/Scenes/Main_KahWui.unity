@@ -229,7 +229,7 @@ MonoBehaviour:
   _luggageBase: {fileID: 1787596486}
   _luggageCollectionRange: 1
   _luggageOffset: 0.5
-  _instantDepositDuration: 0.2
+  _instantDepositDuration: 5
   _luggageLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -319,13 +319,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 852665591}
-  luggage: {fileID: 0}
+  luggage: {fileID: 1787596486}
   moveSpeed: 5
   minMoveSpeed: 5
   sprintMultiplier: 2
-  weightMultiplier: 2
-  speedBoostMultiplier: 2
-  speedBoostDuration: 2
+  weightMultiplier: 5
+  speedBoostMultiplier: 10
+  speedBoostDuration: 5
 --- !u!114 &48420627
 MonoBehaviour:
   m_ObjectHideFlags: 0
