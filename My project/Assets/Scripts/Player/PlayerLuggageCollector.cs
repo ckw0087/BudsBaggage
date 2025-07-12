@@ -58,6 +58,18 @@ public class PlayerLuggageCollector : MonoBehaviour
         }
     }
 
+    public void DropLuggages()
+    {
+        foreach (var luggage in _carriedLuggage)
+        {
+            float dropTime = Random.Range(0.5f, 1f);
+            luggage.transform.DOMoveX(transform.position.x + Random.Range(-2f, 2f), dropTime).SetEase(Ease.Linear);
+            luggage.transform.DOMoveY(transform.position.y + Random.Range(-2f, 0f), dropTime).SetEase(Ease.InOutBounce);
+            luggage.transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(-90f, 90f));
+            luggage.transform.SetParent(null);
+        }
+        _carriedLuggage.Clear();
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
