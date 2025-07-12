@@ -1,10 +1,12 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class NewPlayerMovement : MonoBehaviour
 {
     [SerializeField] DynamicJoystick joystick;
     [SerializeField, Range(0f, 10f)] private float moveSpeed = 5.0f;
+
+    private Rigidbody2D _rigidbody;
 
     private Vector2 startPosition;
     private Vector2 endPosition;
@@ -15,10 +17,15 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _facingRight = true;
 
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -27,10 +34,10 @@ public class PlayerMovement : MonoBehaviour
         //Mobile
         HandleInput();
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //Editor fallback
         HandleInputEditor();
-        #endif
+#endif
     }
 
     private void HandleInput()
@@ -38,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         //Joystick input
         Vector2 dir = joystick.input;
         MoveDir = new Vector3(dir.x, dir.y, 0).normalized;
-        transform.position += moveSpeed * Time.deltaTime * MoveDir;
+        _rigidbody.linearVelocity = MoveDir * moveSpeed;
         if (MoveDir != Vector3.zero)
         {
             if (_facingRight && MoveDir.x < 0)
@@ -57,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log(moveDir);
     }
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     private void HandleInputEditor()
     {
         //Usual editor input code
@@ -67,5 +74,5 @@ public class PlayerMovement : MonoBehaviour
         MoveDir = new Vector3(x, 0, y).normalized;
         transform.position += moveSpeed * Time.deltaTime * MoveDir;*/
     }
-    #endif
+#endif
 }

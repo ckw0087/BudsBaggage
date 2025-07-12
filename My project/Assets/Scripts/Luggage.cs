@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Luggage : MonoBehaviour
@@ -5,6 +6,8 @@ public class Luggage : MonoBehaviour
     public bool Collected { get; private set; } = false;
 
     private Collider2D _luggageCollider;
+
+    public event Action<Luggage> OnCollected;
 
     private void Awake()
     {
@@ -15,5 +18,6 @@ public class Luggage : MonoBehaviour
     {
         Collected = true;
         _luggageCollider.enabled = false;
+        OnCollected?.Invoke(this);
     }
 }
