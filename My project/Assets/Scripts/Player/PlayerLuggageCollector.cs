@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class PlayerLuggageCollector : MonoBehaviour
     [SerializeField] private Transform _luggageBase;
     [SerializeField] private float _luggageCollectionRange;
     [SerializeField] private float _luggageOffset = 0.2f;
+    [SerializeField] private float _instantDepositDuration = 5f;
     [SerializeField] private LayerMask _luggageLayer;
 
     public List<Luggage> CarriedLuggage { get; private set; } = new List<Luggage>();
@@ -87,5 +89,35 @@ public class PlayerLuggageCollector : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
+    }
+
+    public void ActivateInstantDeposit()
+    {
+        StartCoroutine(InstantDeposit(_instantDepositDuration));
+    }
+
+    private IEnumerator InstantDeposit(float duration)
+    {
+        float timer = 0f;
+        while (timer < duration)
+        {
+            DepositLuggages();
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private void DepositLuggages()
+    {
+        if (GameObject.FindGameObjectWithTag("Deposit").TryGetComponent<LuggageDeposit>(out LuggageDeposit deposit))
+        {
+            foreach (var luggage in CarriedLuggage)
+            {
+                luggage.transform.SetParent(null);
+                luggage.transform.DOMove(deposit.transform.position, 0.25f).OnComplete(() => Destroy(luggage.gameObject));
+                luggage.transform.rotation = Quaternion.identity;
+            }
+            CarriedLuggage.Clear();
+        }
     }
 }
