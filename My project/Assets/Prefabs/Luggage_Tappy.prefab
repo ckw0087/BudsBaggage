@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 2113360026319467794}
   - component: {fileID: 2205558546712465921}
   m_Layer: 7
-  m_Name: Luggage
+  m_Name: Luggage_Tappy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -179,3 +179,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c821256204558b43bf62e88e1102c25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _luggageSprite: {fileID: 21300000, guid: d030c7ffa0f8ff144b6b1766405a064e, type: 3}
