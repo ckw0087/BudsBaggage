@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class PlayerLuggageCollector : MonoBehaviour
     [SerializeField] private Transform _luggageBase;
     [SerializeField] private float _luggageCollectionRange;
     [SerializeField] private float _luggageOffset = 0.2f;
+    [SerializeField] private float _instantDepositDuration = 5f;
     [SerializeField] private LayerMask _luggageLayer;
 
     private List<Luggage> _carriedLuggage = new List<Luggage>();
@@ -34,30 +36,51 @@ public class PlayerLuggageCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.LogWarning("deposit");
         if (collision.gameObject.TryGetComponent<LuggageDeposit>(out LuggageDeposit deposit))
         {
-            for (int i = _carriedLuggage.Count - 1; i >= 0; i--)
-            {
-                Luggage luggage = _carriedLuggage[i];
-                luggage.transform.SetParent(null);
-                luggage.transform.DOMove(transform.position + Vector3.up * 1f + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), 0.2f);
-                luggage.transform.DOMove(collision.gameObject.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (_carriedLuggage.Count - i)).OnComplete(() => deposit.Deposit(luggage));
-                luggage.transform.rotation = Quaternion.identity;
-            }
-
-            _carriedLuggage.Clear();
-            /*foreach (var luggage in _carriedLuggage)
+            foreach (var luggage in _carriedLuggage)
             {
                 luggage.transform.SetParent(null);
                 luggage.transform.DOMove(collision.gameObject.transform.position, 0.25f).OnComplete(() => Destroy(luggage.gameObject));
                 luggage.transform.rotation = Quaternion.identity;
             }
-            _carriedLuggage.Clear();*/
+            _carriedLuggage.Clear();
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
+    }
+
+    public void ActivateInstantDeposit()
+    {
+        StartCoroutine(InstantDeposit(_instantDepositDuration));
+    }
+
+    private IEnumerator InstantDeposit(float duration)
+    {
+        float timer = 0f;
+        while (timer < duration)
+        {
+            DepositLuggages();
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private void DepositLuggages()
+    {
+        if (GameObject.FindGameObjectWithTag("Deposit").TryGetComponent<LuggageDeposit>(out LuggageDeposit deposit))
+        {
+            foreach (var luggage in _carriedLuggage)
+            {
+                luggage.transform.SetParent(null);
+                luggage.transform.DOMove(deposit.transform.position, 0.25f).OnComplete(() => Destroy(luggage.gameObject));
+                luggage.transform.rotation = Quaternion.identity;
+            }
+            _carriedLuggage.Clear();
+        }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class JoystickInputForwarder : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
-    [SerializeField] private DynamicJoystick dynamicJoystick;
+    [SerializeField] private DynamicJoystick _dynamicJoystick;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,14 +19,14 @@ public class JoystickInputForwarder : MonoBehaviour, IPointerDownHandler, IPoint
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        dynamicJoystick.OnPointerDown(eventData);
+        _dynamicJoystick.OnPointerDown(eventData);
     }
     public void OnDrag(PointerEventData eventData)
     {
-        dynamicJoystick.OnDrag(eventData);
+        _dynamicJoystick.OnDrag(eventData);
     }
     public void OnPointerUp(PointerEventData eventData)
     {
-        dynamicJoystick.OnPointerUp(eventData);
+        _dynamicJoystick.OnPointerUp(eventData);
     }
 }
