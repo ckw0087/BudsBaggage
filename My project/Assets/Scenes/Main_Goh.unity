@@ -154,7 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joystick: {fileID: 852665591}
   moveSpeed: 5
-  sprintMultiplier: 2
 --- !u!4 &48420621
 Transform:
   m_ObjectHideFlags: 0
@@ -1081,7 +1080,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {x: 0, y: 0}
-  isSprinting: 0
   joystickBackground: {fileID: 715188052}
   joystickHandle: {fileID: 1013474790}
   joystickRadius: 60

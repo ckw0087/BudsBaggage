@@ -97,6 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7971017747987493640}
   - component: {fileID: 2113360026319467794}
+  - component: {fileID: 2205558546712465921}
   m_Layer: 7
   m_Name: Luggage
   m_TagString: Untagged
@@ -166,3 +167,15 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5, y: 0.8}
   m_EdgeRadius: 0
+--- !u!114 &2205558546712465921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3607126213201198378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c821256204558b43bf62e88e1102c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
