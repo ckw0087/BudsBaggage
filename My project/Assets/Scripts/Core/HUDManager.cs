@@ -9,7 +9,8 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private Image _feverBar;
     [SerializeField] private Image _feverBarBorder;
     [SerializeField] private Image _feverImage;
-    [SerializeField] private Color _feverDefaultColor;
+    [SerializeField] private Color _feverDefaultColor1;
+    [SerializeField] private Color _feverDefaultColor2;
     [SerializeField] private float _feverScale = 1.1f;
     [SerializeField] private PlayerLuggageCollector _luggageCollector;
 
@@ -44,11 +45,25 @@ public class HUDManager : MonoBehaviour
         _luggageCountText.rectTransform.localScale = Vector3.one + Vector3.one * bonusScale;
         _luggageCountText.rectTransform.DOPunchScale(-Vector3.one * 0.15f, 0.15f);
         _luggageCountText.text = _luggageCollector.CarriedLuggage.Count.ToString();
+        if (_luggageCollector.CarriedLuggage.Count > 60)
+            _luggageCountText.text += $"(x5)";
+        else if (_luggageCollector.CarriedLuggage.Count > 45)
+            _luggageCountText.text += $"(x4)";
+        else if (_luggageCollector.CarriedLuggage.Count > 30)
+            _luggageCountText.text += $"(x3)";
+        else if (_luggageCollector.CarriedLuggage.Count > 15)
+            _luggageCountText.text += $"(x2)";
     }
 
     public void UpdateFeverMeter()
     {
         _feverBar.fillAmount = _luggageCollector.Fever / _luggageCollector.MaxFever;
+        if (!_inFever)
+        {
+            var fill = _feverBar.fillAmount;
+            var adjustedFill = Mathf.Lerp(0.3f, 0.8f, fill);
+            _feverBar.color = Color.HSVToRGB(Mathf.Lerp(0.5f, 1.2f, fill * 0.8f), adjustedFill, adjustedFill); 
+        }
     }
 
     public void StartFever()
@@ -68,6 +83,7 @@ public class HUDManager : MonoBehaviour
     {
         _feverBarBorder.rectTransform.DOKill(true);
         _feverBarBorder.rectTransform.localScale = Vector3.one;
+        _feverBar.color = _feverDefaultColor1;
         _inFever = false;
     }
 }

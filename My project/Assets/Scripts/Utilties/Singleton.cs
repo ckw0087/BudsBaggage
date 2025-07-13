@@ -7,12 +7,12 @@ namespace GameCells.Utilities
     public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
         private static T instance = null;
-        private static T Instance
+        public static T Instance
         {
             get
             {
                 if (instance == null)
-                    instance = FindObjectOfType<T>(); //new GameObject(typeof(T).ToString()).AddComponent<T>();
+                    instance = FindFirstObjectByType<T>(); //new GameObject(typeof(T).ToString()).AddComponent<T>();
                 return instance;
             }
         }
@@ -26,11 +26,6 @@ namespace GameCells.Utilities
         private void RemoveInstance()
         {
             instance = null;
-        }
-
-        public static T GetInstance()
-        {
-            return Instance;
         }
 
         protected void SetDontDestroyOnLoad()
