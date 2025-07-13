@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Rendering;
@@ -14,6 +15,7 @@ public class PlayerLuggageCollector : MonoBehaviour
     [SerializeField] private float _feverDepletionRate = 10f;
 
     [Header("Luggage Collection")]
+    [SerializeField] private float _instantDepositDuration = 5f;
     [SerializeField] private Transform _luggageBase;
     [SerializeField] private float _luggageCollectionRange;
     [SerializeField] private float _luggageOffset = 0.2f;
@@ -119,6 +121,36 @@ public class PlayerLuggageCollector : MonoBehaviour
         }
         CarriedLuggage.Clear();
         OnLuggageAmountChanged?.Invoke();
+    }
+
+    public void ActivateInstantDeposit()
+    {
+        StartCoroutine(InstantDeposit(_instantDepositDuration));
+    }
+
+    private IEnumerator InstantDeposit(float duration)
+    {
+        float timer = 0f;
+        while (timer < duration)
+        {
+            DepositLuggages();
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private void DepositLuggages()
+    {
+        if (GameObject.FindGameObjectWithTag("Deposit").TryGetComponent<LuggageDeposit>(out LuggageDeposit deposit))
+        {
+            foreach (var luggage in CarriedLuggage)
+            {
+                luggage.transform.SetParent(null);
+                luggage.transform.DOMove(deposit.transform.position, 0.25f).OnComplete(() => Destroy(luggage.gameObject));
+                luggage.transform.rotation = Quaternion.identity;
+            }
+            CarriedLuggage.Clear();
+        }
     }
 
 }
