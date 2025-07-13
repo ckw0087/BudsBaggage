@@ -1,9 +1,18 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
+[Serializable]
+public class SpawnData
+{
+    public GameObject prefab;
+    public float spawnChance;
+}
 
 public class LuggageSpawner : MonoBehaviour
 {
-    [SerializeField] private Luggage[] _luggagePrefabs;
+    [SerializeField] private SpawnData[] _spawnDatas;
     [SerializeField] private float _spawnInterval;
     [SerializeField] private int _maxLuggages = 200;
     [SerializeField] private int _minBoundary = -27;
@@ -12,7 +21,7 @@ public class LuggageSpawner : MonoBehaviour
     [SerializeField] private int _maxInnerBoundary = 8;
 
     private List<Vector2Int> _availableGrid = new List<Vector2Int>();
-    private Dictionary<Luggage, Vector2Int> _luggagesGrid = new Dictionary<Luggage, Vector2Int>();
+    private Dictionary<GameObject, Vector2Int> _occupiedGrid = new Dictionary<GameObject, Vector2Int>();
 
     private void Start()
     {
@@ -30,22 +39,44 @@ public class LuggageSpawner : MonoBehaviour
         for (int i = 0; i <= _maxLuggages; i++)
         {
             int random = Random.Range(0, _availableGrid.Count);
-            SpawnLuggage(_availableGrid[random]);
+            SpawnObject(_availableGrid[random]);
         }
     }
 
-    private void SpawnLuggage(Vector2Int gridPos)
+    private void SpawnObject(Vector2Int gridPos)
     {
-        Luggage luggagePrefab = _luggagePrefabs[Random.Range(0, _luggagePrefabs.Length)];
-        Luggage luggage = Instantiate(luggagePrefab, new Vector3(gridPos.x, gridPos.y, 0f), Quaternion.identity);
+        GameObject spawnedObject = Instantiate(GetRandomSpawnObject(), new Vector3(gridPos.x, gridPos.y, 0f), Quaternion.identity);
         _availableGrid.Remove(gridPos);
-        _luggagesGrid.Add(luggage, gridPos);
-        luggage.OnCollected += FreeLuggageSpace;
+        _occupiedGrid.Add(spawnedObject, gridPos);
+        //spawnedObject.OnCollected += FreeLuggageSpace;
     }
 
-    private void FreeLuggageSpace(Luggage luggage)
+    private GameObject GetRandomSpawnObject()
     {
-        _availableGrid.Add(_luggagesGrid[luggage]);
-        _luggagesGrid.Remove(luggage);
+        float totalChance = 0f;
+        foreach (var data in _spawnDatas)
+        {
+            totalChance += data.spawnChance;
+        }
+
+        float chance = Random.Range(0f, totalChance);
+        float cumulativeChance = 0f;
+
+        for (int i = 0; i < _spawnDatas.Length; i++)
+        {
+            cumulativeChance += _spawnDatas[i].spawnChance;
+            if (chance <= cumulativeChance)
+            {
+                return _spawnDatas[i].prefab;
+            }
+        }
+
+        return _spawnDatas[_spawnDatas.Length].prefab;
+    }
+
+    private void FreeGridSpace(GameObject occupant)
+    {
+        _availableGrid.Add(_occupiedGrid[occupant]);
+        _occupiedGrid.Remove(occupant);
     }
 }
