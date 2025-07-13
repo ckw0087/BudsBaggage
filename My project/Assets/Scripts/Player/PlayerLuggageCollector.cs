@@ -8,18 +8,42 @@ using Random = UnityEngine.Random;
 
 public class PlayerLuggageCollector : MonoBehaviour
 {
+    [Header("Fever")]
+    [field: SerializeField] public float MaxFever { get; private set; } = 100f;
+    [SerializeField] private float _feverGainPerLuggage = 10f;
+    [SerializeField] private float _feverDepletionRate = 10f;
+
+    [Header("Luggage Collection")]
     [SerializeField] private Transform _luggageBase;
     [SerializeField] private float _luggageCollectionRange;
     [SerializeField] private float _luggageOffset = 0.2f;
     [SerializeField] private LayerMask _luggageLayer;
 
+    public float Fever = 0f;
+    public bool InFever { get; private set; }
+
     public List<Luggage> CarriedLuggage { get; private set; } = new List<Luggage>();
     public List<Luggage> DepositingLuggage { get; private set; } = new List<Luggage>();
 
     public event Action OnLuggageAmountChanged;
+    public event Action OnFeverChanged;
+    public event Action OnFeverStarted;
+    public event Action OnFeverEnd;
 
     private void Update()
     {
+        if (InFever)
+        {
+            Fever -= _feverDepletionRate * Time.deltaTime;
+            OnFeverChanged?.Invoke();
+            if (Fever <= 0f)
+            {
+                InFever = false;
+                OnFeverEnd?.Invoke();
+                Fever = 0f;
+            }
+        }
+
         Collider2D[] collisions = Physics2D.OverlapCircleAll(transform.position, _luggageCollectionRange, _luggageLayer);
         foreach (var collision in collisions)
         {
@@ -36,6 +60,15 @@ public class PlayerLuggageCollector : MonoBehaviour
                 //luggage.transform.localPosition = Vector3.up * (_amountOfLuggages - 1) * _luggageOffset;
                 luggage.transform.DOLocalMove(Vector3.up * (CarriedLuggage.Count - 1) * _luggageOffset, 0.2f);
                 luggage.transform.localRotation = Quaternion.identity;
+
+                Fever += _feverGainPerLuggage;
+                Fever = Mathf.Clamp(Fever, 0, MaxFever);
+                OnFeverChanged?.Invoke();
+                if (Fever >= MaxFever && !InFever)
+                {
+                    InFever = true;
+                    OnFeverStarted?.Invoke();
+                }
             }
         }
     }
@@ -68,16 +101,8 @@ public class PlayerLuggageCollector : MonoBehaviour
                 luggage.transform.rotation = Quaternion.identity;
             }
 
-            //CarriedLuggage.Clear();
             OnLuggageAmountChanged?.Invoke();
 
-            /*foreach (var luggage in _carriedLuggage)
-            {
-                luggage.transform.SetParent(null);
-                luggage.transform.DOMove(collision.gameObject.transform.position, 0.25f).OnComplete(() => Destroy(luggage.gameObject));
-                luggage.transform.rotation = Quaternion.identity;
-            }
-            _carriedLuggage.Clear();*/
         }
     }
 
@@ -90,12 +115,10 @@ public class PlayerLuggageCollector : MonoBehaviour
             luggage.transform.DOMoveY(transform.position.y + Random.Range(-2f, 0f), dropTime).SetEase(Ease.InOutBounce);
             luggage.transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(-90f, 90f));
             luggage.transform.SetParent(null);
+            luggage.SpriteRenderer.DOFade(0f, 1.5f).SetDelay(1f).OnComplete(() => Destroy(luggage.gameObject));
         }
         CarriedLuggage.Clear();
         OnLuggageAmountChanged?.Invoke();
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
-    }
+
 }
