@@ -1,5 +1,4 @@
 using DG.Tweening;
-using DG.Tweening.Core.Easing;
 using UnityEngine;
 
 public class LuggageDeposit : MonoBehaviour

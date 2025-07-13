@@ -8,7 +8,9 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private TMP_Text _luggageCountText;
     [SerializeField] private Image _feverBar;
     [SerializeField] private Image _feverBarBorder;
-    [SerializeField] private Color _feverDefaultColor;
+    [SerializeField] private Image _feverImage;
+    [SerializeField] private Color _feverDefaultColor1;
+    [SerializeField] private Color _feverDefaultColor2;
     [SerializeField] private float _feverScale = 1.1f;
     [SerializeField] private PlayerLuggageCollector _luggageCollector;
 
@@ -43,23 +45,45 @@ public class HUDManager : MonoBehaviour
         _luggageCountText.rectTransform.localScale = Vector3.one + Vector3.one * bonusScale;
         _luggageCountText.rectTransform.DOPunchScale(-Vector3.one * 0.15f, 0.15f);
         _luggageCountText.text = _luggageCollector.CarriedLuggage.Count.ToString();
+        if (_luggageCollector.CarriedLuggage.Count > 60)
+            _luggageCountText.text += $"(x5)";
+        else if (_luggageCollector.CarriedLuggage.Count > 45)
+            _luggageCountText.text += $"(x4)";
+        else if (_luggageCollector.CarriedLuggage.Count > 30)
+            _luggageCountText.text += $"(x3)";
+        else if (_luggageCollector.CarriedLuggage.Count > 15)
+            _luggageCountText.text += $"(x2)";
     }
 
     public void UpdateFeverMeter()
     {
         _feverBar.fillAmount = _luggageCollector.Fever / _luggageCollector.MaxFever;
+        if (!_inFever)
+        {
+            var fill = _feverBar.fillAmount;
+            var adjustedFill = Mathf.Lerp(0.3f, 0.8f, fill);
+            _feverBar.color = Color.HSVToRGB(Mathf.Lerp(0.5f, 1.2f, fill * 0.8f), adjustedFill, adjustedFill); 
+        }
     }
 
     public void StartFever()
     {
         _feverBarBorder.rectTransform.DOScale(Vector3.one * _feverScale, 0.2f).SetEase(Ease.OutSine).SetLoops(-1, LoopType.Yoyo);
         _inFever = true;
+        _feverImage.color = Color.white;
+        _feverImage.rectTransform.anchoredPosition = new Vector2(-1050f, 0f);
+        _feverImage.rectTransform.DOAnchorPosX(0f, 0.3f).SetEase(Ease.OutSine);
+        _feverImage.rectTransform.DOScale(1.1f, 0.3f);
+        _feverImage.rectTransform.DOAnchorPosX(1050f, 0.5f).SetEase(Ease.OutSine).SetDelay(1f);
+        _feverImage.rectTransform.DOScale(0.9f, 0.5f).SetDelay(1f);
+        _feverImage.DOFade(0f, 0.5f).SetDelay(1f);
     }
 
     public void StopFever()
     {
         _feverBarBorder.rectTransform.DOKill(true);
         _feverBarBorder.rectTransform.localScale = Vector3.one;
+        _feverBar.color = _feverDefaultColor1;
         _inFever = false;
     }
 }

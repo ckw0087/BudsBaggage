@@ -16,6 +16,8 @@ public class NewPlayerMovement : MonoBehaviour
 
     private Rigidbody2D _rigidbody;
 
+    public bool CanMove { get; private set; } = true;
+
     private float _currentSpeedBoost = 1f;
     private Coroutine _speedBoostRoutine;
     public bool FacingRight { get; private set; } = true;
@@ -33,7 +35,14 @@ public class NewPlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (!CanMove)
+            return;
         HandleInput();
+    }
+
+    public void SetCanMove(bool canMove)
+    {
+        CanMove = canMove;
     }
 
     private void HandleInput()
