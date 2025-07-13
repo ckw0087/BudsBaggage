@@ -24,6 +24,11 @@ public class PlayerLuggageCollector : MonoBehaviour
     [SerializeField] private TMP_Text _comboText;
     [SerializeField] private TMP_Text _comboRatingText;
     [SerializeField] private float _comboResetTime = 2f;
+    [SerializeField] private Color _okayColor;
+    [SerializeField] private Color _greatColor;
+    [SerializeField] private Color _bravoColor;
+    [SerializeField] private Color _spectacularColor;
+    [SerializeField] private Color _legendaryColor;
 
     public float Fever = 0f;
     public bool InFever { get; private set; }
@@ -54,14 +59,27 @@ public class PlayerLuggageCollector : MonoBehaviour
                 _comboRatingText.DOKill(true);
                 _comboRatingText.alpha = 1f;
                 string rating = "OKAY!";
-                if (_combo > 100)
+                _comboRatingText.color = _okayColor;
+                if (_combo >= 60)
+                {
+                    _comboRatingText.color = _legendaryColor;
                     rating = "LEGENDARY!";
-                else if (_combo > 50)
+                }
+                else if (_combo >= 45)
+                {
+                    _comboRatingText.color = _spectacularColor;
                     rating = "SPECTACULAR!";
-                else if (_combo > 25)
+                }
+                else if (_combo >= 30)
+                {
+                    _comboRatingText.color = _bravoColor;
                     rating = "BRAVO!";
-                else if (_combo > 10)
+                }
+                else if (_combo >= 15)
+                {
+                    _comboRatingText.color = _greatColor;
                     rating = "GREAT!";
+                }
 
                 _comboRatingText.text = rating;
                 _comboRatingText.rectTransform.DOKill();
@@ -187,12 +205,11 @@ public class PlayerLuggageCollector : MonoBehaviour
         {
             Luggage luggage = DepositingLuggage[i];
             luggage.SetOutline(true);
-            luggage.transform.SetParent(null, true);
+            luggage.transform.SetParent(null);
             luggage.transform.localScale = Vector3.one;
             luggage.transform.DOMove(transform.position + Vector3.up * 1f + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), 0.2f);
             luggage.transform.DOMove(collision.gameObject.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (DepositingLuggage.Count - i)).OnComplete(() =>
             {
-                deposit.Deposit(luggage);
                 _inCombo = true;
                 _combo++;
                 _comboText.text = $"X{_combo}";
@@ -203,8 +220,9 @@ public class PlayerLuggageCollector : MonoBehaviour
                 _comboText.rectTransform.DORotate(Vector3.zero, 0.2f).SetEase(Ease.OutBounce);
                 _comboText.DOKill(true);
                 _comboText.alpha = 1f;
-
                 _comboTimer = _comboResetTime;
+
+                deposit.Deposit(luggage, _combo);
                 DepositingLuggage.Remove(luggage);
                 OnLuggageAmountChanged?.Invoke();
             });
