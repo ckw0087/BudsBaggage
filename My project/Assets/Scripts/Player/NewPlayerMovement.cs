@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -11,16 +12,20 @@ public class NewPlayerMovement : MonoBehaviour
     [SerializeField, Range(0f, 10f)] private float sprintMultiplier = 2.0f;
     [SerializeField, Range(0f, 10f)] private float weightMultiplier = 2.0f;
     [SerializeField, Range(0f, 10f)] private float speedBoostMultiplier = 2.0f;
-    [SerializeField] private float speedBoostDuration = 2.0f;
+    public float speedBoostDuration = 2.0f;
 
     private Rigidbody2D _rigidbody;
 
+    public bool CanMove { get; private set; } = true;
+
     private float _currentSpeedBoost = 1f;
     private Coroutine _speedBoostRoutine;
-    private bool _facingRight = true;
+    public bool FacingRight { get; private set; } = true;
 
     public bool IsMoving { get; private set; }
     public Vector3 MoveDir { get; private set; }
+
+    public event Action OnFlip;
 
     private void Awake()
     {
@@ -30,7 +35,14 @@ public class NewPlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (!CanMove)
+            return;
         HandleInput();
+    }
+
+    public void SetCanMove(bool canMove)
+    {
+        CanMove = canMove;
     }
 
     private void HandleInput()
@@ -44,19 +56,19 @@ public class NewPlayerMovement : MonoBehaviour
 
         speed = Mathf.Max(minMoveSpeed, speed);
 
-        _rigidbody.linearVelocity = MoveDir * moveSpeed;
+        _rigidbody.linearVelocity = MoveDir * speed;
 
         if (MoveDir != Vector3.zero)
         {
-            if (_facingRight && MoveDir.x < 0)
+            if (FacingRight && MoveDir.x < 0)
             {
-                transform.DORotate(Vector3.up * 180f, 0.2f);
-                _facingRight = false;
+                FacingRight = false;
+                OnFlip?.Invoke();
             }
-            else if (!_facingRight && MoveDir.x > 0)
+            else if (!FacingRight && MoveDir.x > 0)
             {
-                transform.DORotate(Vector3.zero, 0.2f);
-                _facingRight = true;
+                FacingRight = true;
+                OnFlip?.Invoke();
             }
         }
 

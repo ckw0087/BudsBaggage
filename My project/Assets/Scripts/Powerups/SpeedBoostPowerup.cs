@@ -7,9 +7,11 @@ public class SpeedBoostPowerup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<PlayerMovement>(out var movement))
+        if (collision.TryGetComponent<NewPlayerMovement>(out var movement))
         {
             movement.ActivateSpeedBoost();
+
+            PowerupTimerManager.Instance?.ShowPowerupTimer(PowerupTimerManager.PowerupType.SpeedBoost, movement.speedBoostDuration);
 
             Player player = movement.GetComponent<Player>();
             if (player != null)

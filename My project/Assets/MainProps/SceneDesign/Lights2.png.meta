@@ -1,0 +1,1014 @@
+fileFormatVersion: 2
+guid: 6b7dc567f73be714894a7be362645a4d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8353632834688657717
+    second: Lights2_0
+  - first:
+      213: 3923875254126250628
+    second: Lights2_1
+  - first:
+      213: 6447546689593441918
+    second: Lights2_2
+  - first:
+      213: -1982436063082268558
+    second: Lights2_3
+  - first:
+      213: 1716550306811871172
+    second: Lights2_4
+  - first:
+      213: -5670479511516671165
+    second: Lights2_5
+  - first:
+      213: 8775473403636186990
+    second: Lights2_6
+  - first:
+      213: 2012920202634088074
+    second: Lights2_7
+  - first:
+      213: 8996759241369268356
+    second: Lights2_8
+  - first:
+      213: -7559891901761461463
+    second: Lights2_9
+  - first:
+      213: -6793080844136994376
+    second: Lights2_10
+  - first:
+      213: -1113880958563246161
+    second: Lights2_11
+  - first:
+      213: -5678597179011877668
+    second: Lights2_12
+  - first:
+      213: -6177199981500620450
+    second: Lights2_13
+  - first:
+      213: -6722612412874167000
+    second: Lights2_14
+  - first:
+      213: 6554683743546227733
+    second: Lights2_15
+  - first:
+      213: 1775359485138722477
+    second: Lights2_16
+  - first:
+      213: -7467943043507598558
+    second: Lights2_17
+  - first:
+      213: 5067317526905751318
+    second: Lights2_18
+  - first:
+      213: -1952605660415355467
+    second: Lights2_19
+  - first:
+      213: -8193704467756326822
+    second: Lights2_20
+  - first:
+      213: 5055936417004241221
+    second: Lights2_21
+  - first:
+      213: 2195349365202006660
+    second: Lights2_22
+  - first:
+      213: 1192845949265144206
+    second: Lights2_23
+  - first:
+      213: -8734536378278629444
+    second: Lights2_24
+  - first:
+      213: -7341521598179521743
+    second: Lights2_25
+  - first:
+      213: 8587041431588685033
+    second: Lights2_26
+  - first:
+      213: -1151360997722907815
+    second: Lights2_27
+  - first:
+      213: -2610603337751301398
+    second: Lights2_28
+  - first:
+      213: -1834000381488827942
+    second: Lights2_29
+  - first:
+      213: -1962853008908719777
+    second: Lights2_30
+  - first:
+      213: 3890454671210924112
+    second: Lights2_31
+  - first:
+      213: 7410511382796285254
+    second: Lights2_32
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Lights2_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 544
+        width: 33
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc6d750423fe11c80800000000000000
+      internalID: -8353632834688657717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_1
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48a042901c7647630800000000000000
+      internalID: 3923875254126250628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_2
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7e76f9bd894a7950800000000000000
+      internalID: 6447546689593441918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_3
+      rect:
+        serializedVersion: 2
+        x: 173
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 278be0e67e8fc74e0800000000000000
+      internalID: -1982436063082268558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_4
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cffb9cc86962d710800000000000000
+      internalID: 1716550306811871172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_5
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3431be18de86e41b0800000000000000
+      internalID: -5670479511516671165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_6
+      rect:
+        serializedVersion: 2
+        x: 353
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6f7f9fe09eb8c970800000000000000
+      internalID: 8775473403636186990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_7
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8e463762445feb10800000000000000
+      internalID: 2012920202634088074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_8
+      rect:
+        serializedVersion: 2
+        x: 473
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4803787fcd8eadc70800000000000000
+      internalID: 8996759241369268356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_9
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 923e72f8e5ed51790800000000000000
+      internalID: -7559891901761461463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_10
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b924baa6f02ab1a0800000000000000
+      internalID: -6793080844136994376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_11
+      rect:
+        serializedVersion: 2
+        x: 653
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: faf14c67b23ba80f0800000000000000
+      internalID: -1113880958563246161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_12
+      rect:
+        serializedVersion: 2
+        x: 713
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd43672c3f19131b0800000000000000
+      internalID: -5678597179011877668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_13
+      rect:
+        serializedVersion: 2
+        x: 773
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e512b14585d264aa0800000000000000
+      internalID: -6177199981500620450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_14
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82de000e0ab74b2a0800000000000000
+      internalID: -6722612412874167000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_15
+      rect:
+        serializedVersion: 2
+        x: 893
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51cb915f22ae6fa50800000000000000
+      internalID: 6554683743546227733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_16
+      rect:
+        serializedVersion: 2
+        x: 953
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dae5054ab0853a810800000000000000
+      internalID: 1775359485138722477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_17
+      rect:
+        serializedVersion: 2
+        x: 1013
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22b41e86e598c5890800000000000000
+      internalID: -7467943043507598558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_18
+      rect:
+        serializedVersion: 2
+        x: 1073
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6170453617ab25640800000000000000
+      internalID: 5067317526905751318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_19
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b596884f73f6e4e0800000000000000
+      internalID: -1952605660415355467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_20
+      rect:
+        serializedVersion: 2
+        x: 1193
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a506adcd23d1a4e80800000000000000
+      internalID: -8193704467756326822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_21
+      rect:
+        serializedVersion: 2
+        x: 1253
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 541cf7e326b4a2640800000000000000
+      internalID: 5055936417004241221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_22
+      rect:
+        serializedVersion: 2
+        x: 1313
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 482bebebd92777e10800000000000000
+      internalID: 2195349365202006660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_23
+      rect:
+        serializedVersion: 2
+        x: 1373
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8966b52217dd8010800000000000000
+      internalID: 1192845949265144206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_24
+      rect:
+        serializedVersion: 2
+        x: 1433
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbfa9f60171b8c680800000000000000
+      internalID: -8734536378278629444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_25
+      rect:
+        serializedVersion: 2
+        x: 1493
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13bc6a5e00dad1a90800000000000000
+      internalID: -7341521598179521743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_26
+      rect:
+        serializedVersion: 2
+        x: 1553
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e4c7699fac4b2770800000000000000
+      internalID: 8587041431588685033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_27
+      rect:
+        serializedVersion: 2
+        x: 1613
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95b9c72d54b8500f0800000000000000
+      internalID: -1151360997722907815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_28
+      rect:
+        serializedVersion: 2
+        x: 1673
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae272eb881645cbd0800000000000000
+      internalID: -2610603337751301398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_29
+      rect:
+        serializedVersion: 2
+        x: 1733
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad17d67be525c86e0800000000000000
+      internalID: -1834000381488827942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_30
+      rect:
+        serializedVersion: 2
+        x: 1793
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5960b9869b82c4e0800000000000000
+      internalID: -1962853008908719777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_31
+      rect:
+        serializedVersion: 2
+        x: 1853
+        y: 544
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 058494439ebadf530800000000000000
+      internalID: 3890454671210924112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lights2_32
+      rect:
+        serializedVersion: 2
+        x: 1913
+        y: 544
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 645bf8f07dc67d660800000000000000
+      internalID: 7410511382796285254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Lights2_0: -8353632834688657717
+      Lights2_1: 3923875254126250628
+      Lights2_10: -6793080844136994376
+      Lights2_11: -1113880958563246161
+      Lights2_12: -5678597179011877668
+      Lights2_13: -6177199981500620450
+      Lights2_14: -6722612412874167000
+      Lights2_15: 6554683743546227733
+      Lights2_16: 1775359485138722477
+      Lights2_17: -7467943043507598558
+      Lights2_18: 5067317526905751318
+      Lights2_19: -1952605660415355467
+      Lights2_2: 6447546689593441918
+      Lights2_20: -8193704467756326822
+      Lights2_21: 5055936417004241221
+      Lights2_22: 2195349365202006660
+      Lights2_23: 1192845949265144206
+      Lights2_24: -8734536378278629444
+      Lights2_25: -7341521598179521743
+      Lights2_26: 8587041431588685033
+      Lights2_27: -1151360997722907815
+      Lights2_28: -2610603337751301398
+      Lights2_29: -1834000381488827942
+      Lights2_3: -1982436063082268558
+      Lights2_30: -1962853008908719777
+      Lights2_31: 3890454671210924112
+      Lights2_32: 7410511382796285254
+      Lights2_4: 1716550306811871172
+      Lights2_5: -5670479511516671165
+      Lights2_6: 8775473403636186990
+      Lights2_7: 2012920202634088074
+      Lights2_8: 8996759241369268356
+      Lights2_9: -7559891901761461463
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
