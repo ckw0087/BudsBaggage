@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Rendering;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -13,6 +14,7 @@ public class PlayerLuggageCollector : MonoBehaviour
     [SerializeField] private LayerMask _luggageLayer;
 
     public List<Luggage> CarriedLuggage { get; private set; } = new List<Luggage>();
+    public List<Luggage> DepositingLuggage { get; private set; } = new List<Luggage>();
 
     public event Action OnLuggageAmountChanged;
 
@@ -42,17 +44,25 @@ public class PlayerLuggageCollector : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<LuggageDeposit>(out LuggageDeposit deposit))
         {
-            for (int i = CarriedLuggage.Count - 1; i >= 0; i--)
+            //Deposit luggages
+            foreach (Luggage luggage in CarriedLuggage)
             {
-                Luggage luggage = CarriedLuggage[i];
+                DepositingLuggage.Add(luggage);
+                luggage.transform.SetParent(null);
+            }
+            CarriedLuggage.Clear();
+
+            for (int i = DepositingLuggage.Count - 1; i >= 0; i--)
+            {
+                Luggage luggage = DepositingLuggage[i];
                 luggage.SetOutline(true);
                 luggage.transform.SetParent(null);
                 luggage.transform.localScale = Vector3.one;
                 luggage.transform.DOMove(transform.position + Vector3.up * 1f + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), 0.2f);
-                luggage.transform.DOMove(collision.gameObject.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (CarriedLuggage.Count - i)).OnComplete(() =>
+                luggage.transform.DOMove(collision.gameObject.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (DepositingLuggage.Count - i)).OnComplete(() =>
                 {
                     deposit.Deposit(luggage);
-                    CarriedLuggage.Remove(luggage);
+                    DepositingLuggage.Remove(luggage);
                     OnLuggageAmountChanged?.Invoke();
                 });
                 luggage.transform.rotation = Quaternion.identity;
