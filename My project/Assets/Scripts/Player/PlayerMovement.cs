@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -7,14 +8,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, Range(0f, 10f)] private float moveSpeed = 5.0f;
     [SerializeField, Range(0f, 10f)] private float sprintMultiplier = 2.0f;
     [SerializeField, Range(0f, 10f)] private float weightMultiplier = 2.0f;
+    [SerializeField] private float speedBoostMultiplier = 2.0f;
+    [SerializeField] private float speedBoostDuration = 2.0f;
+
+    private float originalMoveSpeed;
+    private Coroutine speedBoostRoutine;
 
     public bool IsMoving { get; private set; }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     private void Update()
@@ -41,5 +41,20 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log(alterSpeedMultiplier);
 
         return alterSpeedMultiplier;
+    }
+
+    public void ActivateSpeedBoost()
+    {
+        if (speedBoostRoutine != null)
+            StopCoroutine(speedBoostRoutine);
+
+        speedBoostRoutine = StartCoroutine(SpeedBoostRoutine(speedBoostMultiplier, speedBoostDuration));
+    }
+
+    private IEnumerator SpeedBoostRoutine(float multiplier, float duration)
+    {
+        moveSpeed = originalMoveSpeed * multiplier;
+        yield return new WaitForSeconds(duration);
+        moveSpeed = originalMoveSpeed;
     }
 }
