@@ -226,6 +226,7 @@ MonoBehaviour:
   _luggageBase: {fileID: 1787596486}
   _luggageCollectionRange: 1
   _luggageOffset: 0.5
+  _instantDepositDuration: 5
   _luggageLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -315,7 +316,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 852665591}
+  luggage: {fileID: 0}
   moveSpeed: 5
+  minMoveSpeed: 5
+  sprintMultiplier: 2
+  weightMultiplier: 2
+  speedBoostMultiplier: 2
+  speedBoostDuration: 2
 --- !u!114 &48420627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1842,9 +1849,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input: {x: 0, y: 0}
   isSprinting: 0
-  joystickBackground: {fileID: 715188052}
-  joystickHandle: {fileID: 1013474790}
-  joystickRadius: 60
+  _joystickBackground: {fileID: 715188052}
+  _joystickHandle: {fileID: 1013474790}
+  _joystickRadius: 60
 --- !u!1 &967742226
 GameObject:
   m_ObjectHideFlags: 0
@@ -1895,7 +1902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa308654e54fe647b97e5003d7e239a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dynamicJoystick: {fileID: 852665591}
+  _dynamicJoystick: {fileID: 852665591}
 --- !u!114 &967742229
 MonoBehaviour:
   m_ObjectHideFlags: 0
