@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEditor.Rendering;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -20,9 +21,15 @@ public class PlayerLuggageCollector : MonoBehaviour
     [SerializeField] private float _luggageCollectionRange;
     [SerializeField] private float _luggageOffset = 0.2f;
     [SerializeField] private LayerMask _luggageLayer;
+    [SerializeField] private TMP_Text _comboText;
+    [SerializeField] private float _comboResetTime = 2f;
 
     public float Fever = 0f;
     public bool InFever { get; private set; }
+
+    private int _combo = 0;
+    private float _comboTimer = 0f;
+
 
     public List<Luggage> CarriedLuggage { get; private set; } = new List<Luggage>();
     public List<Luggage> DepositingLuggage { get; private set; } = new List<Luggage>();
@@ -34,6 +41,10 @@ public class PlayerLuggageCollector : MonoBehaviour
 
     private void Update()
     {
+        _comboTimer -= Time.deltaTime;
+        if (_comboTimer <= 0f)
+            _combo = 0;
+
         if (InFever)
         {
             Fever -= _feverDepletionRate * Time.deltaTime;
@@ -97,6 +108,18 @@ public class PlayerLuggageCollector : MonoBehaviour
                 luggage.transform.DOMove(collision.gameObject.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (DepositingLuggage.Count - i)).OnComplete(() =>
                 {
                     deposit.Deposit(luggage);
+                    _combo++;
+                    _comboText.text = $"X{_combo}";
+                    _comboText.rectTransform.DOKill();
+                    _comboText.rectTransform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(-45f, 45f));
+                    _comboText.rectTransform.localScale = Vector3.one + Vector3.one * Mathf.Clamp(0.05f * _combo, 0f, 2f);
+                    _comboText.rectTransform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce);
+                    _comboText.rectTransform.DORotate(Vector3.zero, 0.2f).SetEase(Ease.OutBounce);
+                    _comboText.DOKill(true);
+                    _comboText.alpha = 1f;
+                    _comboText.DOFade(0f, 0.5f).SetDelay(0.5f);
+
+                    _comboTimer = _comboResetTime;
                     DepositingLuggage.Remove(luggage);
                     OnLuggageAmountChanged?.Invoke();
                 });

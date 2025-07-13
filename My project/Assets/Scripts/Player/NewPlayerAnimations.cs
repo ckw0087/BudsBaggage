@@ -7,10 +7,19 @@ public class NewPlayerAnimations : MonoBehaviour
     private static readonly int IS_MOVING_HASH = Animator.StringToHash("isMoving");
 
     [SerializeField] private NewPlayerMovement _playerMovement;
+    [SerializeField] private Transform _playerSpriteHolder;
     [SerializeField] private Transform _luggageBase;
     [SerializeField] private Animator _animator;
 
-    private float _direction = 1f;
+    private void OnEnable()
+    {
+        _playerMovement.OnFlip += Flip;
+    }
+
+    private void Flip()
+    {
+        _playerSpriteHolder.DORotate(_playerMovement.FacingRight ? Vector3.zero : Vector3.up * 180f, 0.2f);
+    }
 
     private void Update()
     {
