@@ -1,51 +1,51 @@
 using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 public class NewPlayerMovement : MonoBehaviour
 {
-    [SerializeField] DynamicJoystick joystick;
-    [SerializeField, Range(0f, 10f)] private float moveSpeed = 5.0f;
+    [SerializeField] private DynamicJoystick joystick;
+    [SerializeField] private Transform luggage; // Parent for carried luggages
+    [SerializeField, Range(1f, 20f)] private float moveSpeed = 10.0f;
+    [SerializeField, Range(1f, 20f)] private float minMoveSpeed = 5.0f;
+    [SerializeField, Range(0f, 10f)] private float sprintMultiplier = 2.0f;
+    [SerializeField, Range(0f, 10f)] private float weightMultiplier = 2.0f;
+    [SerializeField, Range(0f, 10f)] private float speedBoostMultiplier = 2.0f;
+    [SerializeField] private float speedBoostDuration = 2.0f;
 
     private Rigidbody2D _rigidbody;
 
-    private Vector2 startPosition;
-    private Vector2 endPosition;
-
-    public Vector3 MoveDir { get; private set; }
+    private float _currentSpeedBoost = 1f;
+    private Coroutine _speedBoostRoutine;
+    private bool _facingRight = true;
 
     public bool IsMoving { get; private set; }
-
-    private bool _facingRight = true;
+    public Vector3 MoveDir { get; private set; }
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     private void Update()
     {
-        //Mobile
         HandleInput();
-
-#if UNITY_EDITOR
-        //Editor fallback
-        HandleInputEditor();
-#endif
     }
 
     private void HandleInput()
     {
-        //Joystick input
         Vector2 dir = joystick.input;
         MoveDir = new Vector3(dir.x, dir.y, 0).normalized;
+
+        float speed = joystick.isSprinting
+            ? moveSpeed * sprintMultiplier * _currentSpeedBoost - AlterSpeed(moveSpeed * sprintMultiplier * _currentSpeedBoost)
+            : moveSpeed * _currentSpeedBoost - AlterSpeed(moveSpeed * _currentSpeedBoost);
+
+        speed = Mathf.Max(minMoveSpeed, speed);
+
         _rigidbody.linearVelocity = MoveDir * moveSpeed;
+
         if (MoveDir != Vector3.zero)
         {
             if (_facingRight && MoveDir.x < 0)
@@ -61,18 +61,28 @@ public class NewPlayerMovement : MonoBehaviour
         }
 
         IsMoving = dir.magnitude > 0.01f;
-        //Debug.Log(moveDir);
     }
 
-#if UNITY_EDITOR
-    private void HandleInputEditor()
+    private float AlterSpeed(float baseSpeed)
     {
-        //Usual editor input code
-        /*float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
-
-        MoveDir = new Vector3(x, 0, y).normalized;
-        transform.position += moveSpeed * Time.deltaTime * MoveDir;*/
+        if (luggage == null) return 0f;
+        float alterSpeedMultiplier = (luggage.childCount * weightMultiplier) / Mathf.Max(baseSpeed, 0.01f);
+        return alterSpeedMultiplier;
     }
-#endif
+
+    // Called by powerup, or wherever needed
+    public void ActivateSpeedBoost()
+    {
+        if (_speedBoostRoutine != null)
+            StopCoroutine(_speedBoostRoutine);
+
+        _speedBoostRoutine = StartCoroutine(SpeedBoostRoutine(speedBoostMultiplier, speedBoostDuration));
+    }
+
+    private IEnumerator SpeedBoostRoutine(float multiplier, float duration)
+    {
+        _currentSpeedBoost = multiplier;
+        yield return new WaitForSeconds(duration);
+        _currentSpeedBoost = 1f;
+    }
 }
