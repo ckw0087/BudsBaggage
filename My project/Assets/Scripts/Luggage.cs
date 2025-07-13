@@ -8,7 +8,7 @@ public class Luggage : MonoBehaviour
     public bool Collected { get; private set; } = false;
 
     private Collider2D _luggageCollider;
-    private SpriteRenderer _spriteRenderer;
+    public SpriteRenderer SpriteRenderer { get; private set; }
     private Material _material;
 
     public event Action<Luggage> OnCollected;
@@ -16,12 +16,12 @@ public class Luggage : MonoBehaviour
     private void Awake()
     {
         _luggageCollider = GetComponent<Collider2D>();
-        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        _material = _spriteRenderer.material;
+        SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _material = SpriteRenderer.material;
 
         if (_luggageSprite != null)
         {
-            _spriteRenderer.sprite = _luggageSprite;
+            SpriteRenderer.sprite = _luggageSprite;
         }
 
     }

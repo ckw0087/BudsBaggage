@@ -42,5 +42,11 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Player
+    uniqueID: 2160857555
+    locked: 0
+  - name: Luggage
+    uniqueID: 1890089201
+    locked: 0
   m_RenderingLayers:
   - Default
