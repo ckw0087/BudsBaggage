@@ -19,6 +19,7 @@ public class NewPlayerAnimations : MonoBehaviour
     private void Flip()
     {
         _playerSpriteHolder.DORotate(_playerMovement.FacingRight ? Vector3.zero : Vector3.up * 180f, 0.2f);
+        Debug.LogWarning("FLIp");
     }
 
     private void Update()

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SpeedBoostPowerup : MonoBehaviour
+public class SpeedBoostPowerup : Collectible
 {
     [SerializeField] private AudioClip pickupSound;
     [SerializeField] private float volume = 1f;
@@ -17,7 +17,9 @@ public class SpeedBoostPowerup : MonoBehaviour
             if (player != null)
                 player.PlayPickupSound(pickupSound, volume);
 
+            CollectEvent();
             Destroy(gameObject);
+
         }
     }
 }

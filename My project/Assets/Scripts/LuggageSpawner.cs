@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class SpawnData
 {
-    public GameObject prefab;
+    public Collectible prefab;
     public float spawnChance;
 }
 
@@ -15,19 +15,21 @@ public class LuggageSpawner : MonoBehaviour
     [SerializeField] private SpawnData[] _spawnDatas;
     [SerializeField] private float _spawnInterval;
     [SerializeField] private int _maxLuggages = 200;
-    [SerializeField] private int _minBoundary = -27;
-    [SerializeField] private int _maxBoundary = 27;
+    [SerializeField] private int _minBoundaryH = -27;
+    [SerializeField] private int _maxBoundaryH = 27;
+    [SerializeField] private int _minBoundaryV = -27;
+    [SerializeField] private int _maxBoundaryV = 27;
     [SerializeField] private int _minInnerBoundary = -8;
     [SerializeField] private int _maxInnerBoundary = 8;
 
     private List<Vector2Int> _availableGrid = new List<Vector2Int>();
-    private Dictionary<GameObject, Vector2Int> _occupiedGrid = new Dictionary<GameObject, Vector2Int>();
+    private Dictionary<Collectible, Vector2Int> _occupiedGrid = new Dictionary<Collectible, Vector2Int>();
 
     private void Start()
     {
-        for (int i = _minBoundary; i <= _maxBoundary; i++)
+        for (int i = _minBoundaryH; i <= _maxBoundaryH; i++)
         {
-            for (int j = _minBoundary; j <= _maxBoundary; j++)
+            for (int j = _minBoundaryV; j <= _maxBoundaryV; j++)
             {
                 if (i > _minInnerBoundary && i < _maxInnerBoundary && j > _minInnerBoundary && j < _maxInnerBoundary)
                     continue;
@@ -45,13 +47,13 @@ public class LuggageSpawner : MonoBehaviour
 
     private void SpawnObject(Vector2Int gridPos)
     {
-        GameObject spawnedObject = Instantiate(GetRandomSpawnObject(), new Vector3(gridPos.x, gridPos.y, 0f), Quaternion.identity);
+        Collectible spawnedObject = Instantiate(GetRandomSpawnObject(), new Vector3(gridPos.x, gridPos.y, 0f), Quaternion.identity);
         _availableGrid.Remove(gridPos);
         _occupiedGrid.Add(spawnedObject, gridPos);
-        //spawnedObject.OnCollected += FreeLuggageSpace;
+        spawnedObject.OnCollected += FreeGridSpace;
     }
 
-    private GameObject GetRandomSpawnObject()
+    private Collectible GetRandomSpawnObject()
     {
         float totalChance = 0f;
         foreach (var data in _spawnDatas)
@@ -74,7 +76,7 @@ public class LuggageSpawner : MonoBehaviour
         return _spawnDatas[_spawnDatas.Length].prefab;
     }
 
-    private void FreeGridSpace(GameObject occupant)
+    private void FreeGridSpace(Collectible occupant)
     {
         _availableGrid.Add(_occupiedGrid[occupant]);
         _occupiedGrid.Remove(occupant);

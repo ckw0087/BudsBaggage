@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MagnetPowerup : MonoBehaviour
+public class MagnetPowerup : Collectible
 {
     [SerializeField] private AudioClip pickupSound;
     [SerializeField] private float volume = 1f;
@@ -17,6 +17,7 @@ public class MagnetPowerup : MonoBehaviour
             if (player != null)
                 player.PlayPickupSound(pickupSound, volume);
 
+            CollectEvent();
             Destroy(gameObject);
         }
     }

@@ -64,11 +64,14 @@ public class NewPlayerMovement : MonoBehaviour
             {
                 FacingRight = false;
                 OnFlip?.Invoke();
+                Debug.LogWarning("left");
             }
             else if (!FacingRight && MoveDir.x > 0)
             {
                 FacingRight = true;
                 OnFlip?.Invoke();
+                Debug.LogWarning("right");
+
             }
         }
 

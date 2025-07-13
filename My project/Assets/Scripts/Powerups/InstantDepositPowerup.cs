@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InstantDepositPowerup : MonoBehaviour
+public class InstantDepositPowerup : Collectible
 {
     [SerializeField] private AudioClip pickupSound;
     [SerializeField] private float volume = 1f;
@@ -17,6 +17,7 @@ public class InstantDepositPowerup : MonoBehaviour
             if (player != null)
                 player.PlayPickupSound(pickupSound, volume);
 
+            CollectEvent();
             Destroy(gameObject);
         }
     }
