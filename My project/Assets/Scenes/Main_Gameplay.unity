@@ -718,7 +718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 852665591}
-  luggage: {fileID: 0}
+  luggage: {fileID: 1787596486}
   moveSpeed: 5
   minMoveSpeed: 5
   sprintMultiplier: 2

@@ -170,4 +170,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bananaSoundSource: {fileID: 0}
-  _bananaSfx: {fileID: 0}
+  _bananaSfx: {fileID: 8300000, guid: fe62506b4e9ae214b9854052de9a9ffb, type: 3}
