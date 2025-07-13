@@ -252,7 +252,18 @@ public class PlayerLuggageCollector : MonoBehaviour
             luggage.transform.DOMove(collision.transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), 0.2f);
             luggage.transform.DOMove(deposit.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (DepositingLuggage.Count - i)).OnComplete(() =>
             {
-                deposit.Deposit(luggage);
+                _inCombo = true;
+                _combo++;
+                _comboText.text = $"X{_combo}";
+                _comboText.rectTransform.DOKill();
+                _comboText.rectTransform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(-45f, 45f));
+                _comboText.rectTransform.localScale = Vector3.one + Vector3.one * Mathf.Clamp(0.05f * _combo, 0f, 2f);
+                _comboText.rectTransform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce);
+                _comboText.rectTransform.DORotate(Vector3.zero, 0.2f).SetEase(Ease.OutBounce);
+                _comboText.DOKill(true);
+                _comboText.alpha = 1f;
+                _comboTimer = _comboResetTime;
+                deposit.Deposit(luggage, _combo);
                 DepositingLuggage.Remove(luggage);
                 OnLuggageAmountChanged?.Invoke();
             });
@@ -281,7 +292,18 @@ public class PlayerLuggageCollector : MonoBehaviour
             luggage.transform.DOMove(transform.position + Vector3.up * 1f + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), 0.2f);
             luggage.transform.DOMove(deposit.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (DepositingLuggage.Count - i)).OnComplete(() =>
             {
-                deposit.Deposit(luggage);
+                _inCombo = true;
+                _combo++;
+                _comboText.text = $"X{_combo}";
+                _comboText.rectTransform.DOKill();
+                _comboText.rectTransform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(-45f, 45f));
+                _comboText.rectTransform.localScale = Vector3.one + Vector3.one * Mathf.Clamp(0.05f * _combo, 0f, 2f);
+                _comboText.rectTransform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce);
+                _comboText.rectTransform.DORotate(Vector3.zero, 0.2f).SetEase(Ease.OutBounce);
+                _comboText.DOKill(true);
+                _comboText.alpha = 1f;
+                _comboTimer = _comboResetTime;
+                deposit.Deposit(luggage, _combo);
                 DepositingLuggage.Remove(luggage);
                 OnLuggageAmountChanged?.Invoke();
             });
