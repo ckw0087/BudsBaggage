@@ -16,7 +16,7 @@ public class PlayerLuggageCollector : MonoBehaviour
     [SerializeField] private float _feverDepletionRate = 10f;
 
     [Header("Luggage Collection")]
-    [SerializeField] private float _instantDepositDuration = 5f;
+    public float _instantDepositDuration = 5f;
     [SerializeField] private Transform _luggageBase;
     [SerializeField] private float _luggageCollectionRange;
     [SerializeField] private float _luggageOffset = 0.2f;

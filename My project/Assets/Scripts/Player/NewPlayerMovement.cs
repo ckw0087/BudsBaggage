@@ -12,7 +12,7 @@ public class NewPlayerMovement : MonoBehaviour
     [SerializeField, Range(0f, 10f)] private float sprintMultiplier = 2.0f;
     [SerializeField, Range(0f, 10f)] private float weightMultiplier = 2.0f;
     [SerializeField, Range(0f, 10f)] private float speedBoostMultiplier = 2.0f;
-    [SerializeField] private float speedBoostDuration = 2.0f;
+    public float speedBoostDuration = 2.0f;
 
     private Rigidbody2D _rigidbody;
 

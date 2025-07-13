@@ -11,6 +11,8 @@ public class MagnetPowerup : MonoBehaviour
         {
             magnet.ActivateMagnet();
 
+            PowerupTimerManager.Instance?.ShowPowerupTimer(PowerupTimerManager.PowerupType.Magnet, magnet.duration);
+
             Player player = magnet.GetComponent<Player>();
             if (player != null)
                 player.PlayPickupSound(pickupSound, volume);

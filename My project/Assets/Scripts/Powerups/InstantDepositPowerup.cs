@@ -10,14 +10,14 @@ public class InstantDepositPowerup : MonoBehaviour
         if (collision.TryGetComponent<PlayerLuggageCollector>(out var collector))
         {
             collector.ActivateInstantDeposit();
-            PlaySound();
+
+            PowerupTimerManager.Instance?.ShowPowerupTimer(PowerupTimerManager.PowerupType.InstantDeposit, collector._instantDepositDuration);
+
+            Player player = collector.GetComponent<Player>();
+            if (player != null)
+                player.PlayPickupSound(pickupSound, volume);
+
             Destroy(gameObject);
         }
-    }
-
-    private void PlaySound()
-    {
-        if (pickupSound != null)
-            AudioSource.PlayClipAtPoint(pickupSound, transform.position, volume);
     }
 }

@@ -5,7 +5,7 @@ public class PlayerMagnet : MonoBehaviour
 {
     [SerializeField, Range(1f, 10f)] private float radius = 3f;
     [SerializeField, Range(5f, 20f)] private float force = 5f;
-    [SerializeField, Range(1f, 20f)] private float duration = 5f;
+    [Range(1f, 20f)] public float duration = 5f;
     [SerializeField] private LayerMask luggageLayer;
 
     public void ActivateMagnet()
