@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BananaPeel : MonoBehaviour
+public class BananaPeel : Collectible
 {
     [SerializeField] AudioSource bananaSoundSource;
     [SerializeField] private AudioClip _bananaSfx;
@@ -10,6 +10,7 @@ public class BananaPeel : MonoBehaviour
         {
             bananaSoundSource.PlayOneShot(_bananaSfx);
             collision.gameObject.GetComponent<PlayerLuggageCollector>().DropLuggages();
+            CollectEvent();
             Destroy(gameObject);
         }
     }
