@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip _feverMusic;
     [SerializeField] private AudioSource _bgmSource1;
     [SerializeField] private AudioSource _bgmSource2;
+    [SerializeField] private AudioSource _sfxSource;
 
     private bool _bgmSource1Playing = true;
 
@@ -16,6 +17,17 @@ public class AudioManager : MonoBehaviour
     {
         _luggageCollector.OnFeverStarted += PlayFeverMusic;
         _luggageCollector.OnFeverEnd += PlayNormalMusic;
+    }
+
+    public void PlayGlobalSFX(AudioClip sfx)
+    {
+        _sfxSource.PlayOneShot(sfx);
+    }
+
+    public void StopMusic()
+    {
+        _bgmSource1.Stop();
+        _bgmSource2.Stop();
     }
 
     public void ChangeMusic(AudioClip clip)
