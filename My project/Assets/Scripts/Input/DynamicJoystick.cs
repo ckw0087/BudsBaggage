@@ -6,16 +6,16 @@ public class DynamicJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     [HideInInspector] public Vector2 input = Vector2.zero;
     [HideInInspector] public bool isSprinting;
 
-    [SerializeField] private RectTransform joystickBackground;
-    [SerializeField] private RectTransform joystickHandle;
-    [SerializeField] private float joystickRadius = 60f;
+    [SerializeField] private RectTransform _joystickBackground;
+    [SerializeField] private RectTransform _joystickHandle;
+    [SerializeField] private float _joystickRadius = 60f;
 
     private bool isJoystickActive;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        joystickBackground.gameObject.SetActive(false);
+        _joystickBackground.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -37,18 +37,18 @@ public class DynamicJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         isJoystickActive = true;
 
         // Move joystick BG to finger position
-        joystickBackground.gameObject.SetActive(true);
+        _joystickBackground.gameObject.SetActive(true);
 
         // Convert screen position to canvas position
         Vector2 pos;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            joystickBackground.parent as RectTransform,
+            _joystickBackground.parent as RectTransform,
             screenPosition,
             null,
             out pos
         );
-        joystickBackground.anchoredPosition = pos;
-        joystickHandle.anchoredPosition = Vector2.zero;
+        _joystickBackground.anchoredPosition = pos;
+        _joystickHandle.anchoredPosition = Vector2.zero;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -63,8 +63,8 @@ public class DynamicJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        joystickBackground.gameObject.SetActive(false);
-        joystickHandle.anchoredPosition = Vector2.zero;
+        _joystickBackground.gameObject.SetActive(false);
+        _joystickHandle.anchoredPosition = Vector2.zero;
         input = Vector2.zero;
         isJoystickActive = false;
     }
@@ -73,13 +73,13 @@ public class DynamicJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         Vector2 pos;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            joystickBackground, 
+            _joystickBackground, 
             eventData.position, 
             eventData.pressEventCamera, 
             out pos
         );
-        pos = Vector2.ClampMagnitude(pos, joystickRadius);
-        joystickHandle.anchoredPosition = pos;
-        input = pos / joystickRadius;
+        pos = Vector2.ClampMagnitude(pos, _joystickRadius);
+        _joystickHandle.anchoredPosition = pos;
+        input = pos / _joystickRadius;
     }
 }

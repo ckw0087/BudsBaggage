@@ -1,71 +1,60 @@
-using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] DynamicJoystick joystick;
+    [SerializeField] Transform luggage;
     [SerializeField, Range(0f, 10f)] private float moveSpeed = 5.0f;
+    [SerializeField, Range(0f, 10f)] private float sprintMultiplier = 2.0f;
+    [SerializeField, Range(0f, 10f)] private float weightMultiplier = 2.0f;
+    [SerializeField] private float speedBoostMultiplier = 2.0f;
+    [SerializeField] private float speedBoostDuration = 2.0f;
 
-    private Vector2 startPosition;
-    private Vector2 endPosition;
-
-    public Vector3 MoveDir { get; private set; }
+    private float originalMoveSpeed;
+    private Coroutine speedBoostRoutine;
 
     public bool IsMoving { get; private set; }
-
-    private bool _facingRight = true;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     private void Update()
     {
-        //Mobile
         HandleInput();
-
-        #if UNITY_EDITOR
-        //Editor fallback
-        HandleInputEditor();
-        #endif
     }
 
     private void HandleInput()
     {
         //Joystick input
         Vector2 dir = joystick.input;
-        MoveDir = new Vector3(dir.x, dir.y, 0).normalized;
-        transform.position += moveSpeed * Time.deltaTime * MoveDir;
-        if (MoveDir != Vector3.zero)
-        {
-            if (_facingRight && MoveDir.x < 0)
-            {
-                transform.DORotate(Vector3.up * 180f, 0.2f);
-                _facingRight = false;
-            }
-            else if (!_facingRight && MoveDir.x > 0)
-            {
-                transform.DORotate(Vector3.zero, 0.2f);
-                _facingRight = true;
-            }
-        }
+        float speed = joystick.isSprinting ? moveSpeed * sprintMultiplier - AlterSpeed(moveSpeed) : moveSpeed - AlterSpeed(moveSpeed);
+        Vector3 moveDir = new Vector3(dir.x, dir.y, 0).normalized;
+        transform.position += speed* Time.deltaTime * moveDir;
+        Debug.Log(dir);
 
         IsMoving = dir.magnitude > 0.01f;
         //Debug.Log(moveDir);
     }
 
-    #if UNITY_EDITOR
-    private void HandleInputEditor()
+    private float AlterSpeed(float sprintMultiplier)
     {
-        //Usual editor input code
-        /*float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
+        float alterSpeedMultiplier = (luggage.childCount * weightMultiplier) / sprintMultiplier;
+        Debug.Log(alterSpeedMultiplier);
 
-        MoveDir = new Vector3(x, 0, y).normalized;
-        transform.position += moveSpeed * Time.deltaTime * MoveDir;*/
+        return alterSpeedMultiplier;
     }
-    #endif
+
+    public void ActivateSpeedBoost()
+    {
+        if (speedBoostRoutine != null)
+            StopCoroutine(speedBoostRoutine);
+
+        speedBoostRoutine = StartCoroutine(SpeedBoostRoutine(speedBoostMultiplier, speedBoostDuration));
+    }
+
+    private IEnumerator SpeedBoostRoutine(float multiplier, float duration)
+    {
+        moveSpeed = originalMoveSpeed * multiplier;
+        yield return new WaitForSeconds(duration);
+        moveSpeed = originalMoveSpeed;
+    }
 }
