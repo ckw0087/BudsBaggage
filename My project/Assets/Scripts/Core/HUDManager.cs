@@ -8,6 +8,7 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private TMP_Text _luggageCountText;
     [SerializeField] private Image _feverBar;
     [SerializeField] private Image _feverBarBorder;
+    [SerializeField] private Image _feverImage;
     [SerializeField] private Color _feverDefaultColor;
     [SerializeField] private float _feverScale = 1.1f;
     [SerializeField] private PlayerLuggageCollector _luggageCollector;
@@ -54,6 +55,13 @@ public class HUDManager : MonoBehaviour
     {
         _feverBarBorder.rectTransform.DOScale(Vector3.one * _feverScale, 0.2f).SetEase(Ease.OutSine).SetLoops(-1, LoopType.Yoyo);
         _inFever = true;
+        _feverImage.color = Color.white;
+        _feverImage.rectTransform.anchoredPosition = new Vector2(-1050f, 0f);
+        _feverImage.rectTransform.DOAnchorPosX(0f, 0.3f).SetEase(Ease.OutSine);
+        _feverImage.rectTransform.DOScale(1.1f, 0.3f);
+        _feverImage.rectTransform.DOAnchorPosX(1050f, 0.5f).SetEase(Ease.OutSine).SetDelay(1f);
+        _feverImage.rectTransform.DOScale(0.9f, 0.5f).SetDelay(1f);
+        _feverImage.DOFade(0f, 0.5f).SetDelay(1f);
     }
 
     public void StopFever()
