@@ -26,7 +26,7 @@ public class LuggageDeposit : MonoBehaviour
     private void Update()
     {
         _pitchTimer -= Time.deltaTime;
-        if ( _pitchTimer < 0 )
+        if (_pitchTimer < 0)
             _audioSource.pitch = 1;
     }
 }

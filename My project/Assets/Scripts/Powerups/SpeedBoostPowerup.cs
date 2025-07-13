@@ -11,6 +11,8 @@ public class SpeedBoostPowerup : MonoBehaviour
         {
             movement.ActivateSpeedBoost();
 
+            PowerupTimerManager.Instance?.ShowPowerupTimer(PowerupTimerManager.PowerupType.SpeedBoost, movement.speedBoostDuration);
+
             Player player = movement.GetComponent<Player>();
             if (player != null)
                 player.PlayPickupSound(pickupSound, volume);

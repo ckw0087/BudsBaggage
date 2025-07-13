@@ -16,7 +16,7 @@ public class PlayerLuggageCollector : MonoBehaviour
     [SerializeField] private float _feverDepletionRate = 10f;
 
     [Header("Luggage Collection")]
-    [SerializeField] private float _instantDepositDuration = 5f;
+    public float _instantDepositDuration = 5f;
     [SerializeField] private Transform _luggageBase;
     [SerializeField] private float _luggageCollectionRange;
     [SerializeField] private float _luggageOffset = 0.2f;
@@ -44,6 +44,9 @@ public class PlayerLuggageCollector : MonoBehaviour
     public event Action OnFeverChanged;
     public event Action OnFeverStarted;
     public event Action OnFeverEnd;
+
+    private bool _isInstantDeposit;
+    private Coroutine _instantDepositRoutine;
 
     private void Update()
     {
@@ -115,10 +118,18 @@ public class PlayerLuggageCollector : MonoBehaviour
                 OnLuggageAmountChanged?.Invoke();
 
                 luggage.Collect();
-                luggage.transform.SetParent(_luggageBase);
-                //luggage.transform.localPosition = Vector3.up * (_amountOfLuggages - 1) * _luggageOffset;
-                luggage.transform.DOLocalMove(Vector3.up * (CarriedLuggage.Count - 1) * _luggageOffset, 0.2f);
-                luggage.transform.localRotation = Quaternion.identity;
+                if (!_isInstantDeposit)
+                {
+                    luggage.transform.SetParent(_luggageBase);
+                    //luggage.transform.localPosition = Vector3.up * (_amountOfLuggages - 1) * _luggageOffset;
+                    luggage.transform.DOLocalMove(Vector3.up * (CarriedLuggage.Count - 1) * _luggageOffset, 0.2f);
+                    luggage.transform.localRotation = Quaternion.identity;
+                }
+                else
+                {
+                    DepositLuggages(collision);
+                }
+
 
                 Fever += _feverGainPerLuggage;
                 Fever = Mathf.Clamp(Fever, 0, MaxFever);
@@ -136,44 +147,7 @@ public class PlayerLuggageCollector : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<LuggageDeposit>(out LuggageDeposit deposit))
         {
-            //Deposit luggages
-            foreach (Luggage luggage in CarriedLuggage)
-            {
-                DepositingLuggage.Add(luggage);
-                luggage.transform.SetParent(null);
-            }
-            CarriedLuggage.Clear();
-
-            for (int i = DepositingLuggage.Count - 1; i >= 0; i--)
-            {
-                Luggage luggage = DepositingLuggage[i];
-                luggage.SetOutline(true);
-                luggage.transform.SetParent(null);
-                luggage.transform.localScale = Vector3.one;
-                luggage.transform.DOMove(transform.position + Vector3.up * 1f + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), 0.2f);
-                luggage.transform.DOMove(collision.gameObject.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (DepositingLuggage.Count - i)).OnComplete(() =>
-                {
-                    _inCombo = true;
-                    _combo++;
-                    _comboText.text = $"X{_combo}";
-                    _comboText.rectTransform.DOKill();
-                    _comboText.rectTransform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(-45f, 45f));
-                    _comboText.rectTransform.localScale = Vector3.one + Vector3.one * Mathf.Clamp(0.05f * _combo, 0f, 2f);
-                    _comboText.rectTransform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce);
-                    _comboText.rectTransform.DORotate(Vector3.zero, 0.2f).SetEase(Ease.OutBounce);
-                    _comboText.DOKill(true);
-                    _comboText.alpha = 1f;
-                    _comboTimer = _comboResetTime;
-
-                    deposit.Deposit(luggage, _combo);
-                    DepositingLuggage.Remove(luggage);
-                    OnLuggageAmountChanged?.Invoke();
-                });
-                luggage.transform.rotation = Quaternion.identity;
-            }
-
-            OnLuggageAmountChanged?.Invoke();
-
+            DepositLuggages(collision, deposit);
         }
     }
 
@@ -194,50 +168,148 @@ public class PlayerLuggageCollector : MonoBehaviour
 
     public void ActivateInstantDeposit()
     {
-        StartCoroutine(InstantDeposit(_instantDepositDuration));
+        if (_instantDepositRoutine != null)
+            StopCoroutine(_instantDepositRoutine);
+
+        _instantDepositRoutine = StartCoroutine(InstantDeposit(_instantDepositDuration));
+
+        if (GameObject.FindGameObjectWithTag("Deposit").TryGetComponent<LuggageDeposit>(out LuggageDeposit deposit))
+        {
+            DepositLuggages(deposit);
+        }
     }
 
     private IEnumerator InstantDeposit(float duration)
     {
+        _isInstantDeposit = true;
         float timer = 0f;
         while (timer < duration)
         {
-            DepositLuggages();
             timer += Time.deltaTime;
             yield return null;
         }
+        _isInstantDeposit = false;
     }
 
-    private void DepositLuggages()
+    private void DepositLuggages(Collider2D collision, LuggageDeposit deposit)
     {
-        if (GameObject.FindGameObjectWithTag("Deposit").TryGetComponent<LuggageDeposit>(out LuggageDeposit deposit))
+        //Deposit luggages
+        foreach (Luggage luggage in CarriedLuggage)
         {
-            for (int i = CarriedLuggage.Count - 1; i >= 0; i--)
-            {
-                Luggage luggage = CarriedLuggage[i];
-                luggage.transform.SetParent(null, true);
-                luggage.SetOutline(true);
-                luggage.transform.localScale = Vector3.one;
-                luggage.transform.DOMove(transform.position + Vector3.up * 1f + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), 0.2f);
-                luggage.transform.DOMove(transform.position, 0.25f).SetDelay(0.2f + 0.1f * (CarriedLuggage.Count - i)).OnComplete(() =>
-                {
-                    deposit.Deposit(luggage, _combo);
-                    CarriedLuggage.Remove(luggage);
-                    OnLuggageAmountChanged?.Invoke();
-                });
-                luggage.transform.rotation = Quaternion.identity;
-            }
-
-            OnLuggageAmountChanged?.Invoke();
-
-            //foreach (var luggage in CarriedLuggage)
-            //{
-            //    luggage.transform.SetParent(null);
-            //    luggage.transform.DOMove(deposit.transform.position, 0.25f).OnComplete(() => Destroy(luggage.gameObject));
-            //    luggage.transform.rotation = Quaternion.identity;
-            //}
-            //CarriedLuggage.Clear();
+            DepositingLuggage.Add(luggage);
+            luggage.transform.SetParent(null);
         }
+        CarriedLuggage.Clear();
+
+        for (int i = DepositingLuggage.Count - 1; i >= 0; i--)
+        {
+            Luggage luggage = DepositingLuggage[i];
+            luggage.SetOutline(true);
+            luggage.transform.SetParent(null);
+            luggage.transform.localScale = Vector3.one;
+            luggage.transform.DOMove(transform.position + Vector3.up * 1f + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), 0.2f);
+            luggage.transform.DOMove(collision.gameObject.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (DepositingLuggage.Count - i)).OnComplete(() =>
+            {
+                _inCombo = true;
+                _combo++;
+                _comboText.text = $"X{_combo}";
+                _comboText.rectTransform.DOKill();
+                _comboText.rectTransform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(-45f, 45f));
+                _comboText.rectTransform.localScale = Vector3.one + Vector3.one * Mathf.Clamp(0.05f * _combo, 0f, 2f);
+                _comboText.rectTransform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce);
+                _comboText.rectTransform.DORotate(Vector3.zero, 0.2f).SetEase(Ease.OutBounce);
+                _comboText.DOKill(true);
+                _comboText.alpha = 1f;
+                _comboTimer = _comboResetTime;
+
+                deposit.Deposit(luggage, _combo);
+                DepositingLuggage.Remove(luggage);
+                OnLuggageAmountChanged?.Invoke();
+            });
+            luggage.transform.rotation = Quaternion.identity;
+        }
+
+        OnLuggageAmountChanged?.Invoke();
     }
 
+    private void DepositLuggages(Collider2D collision)
+    {
+        GameObject.FindGameObjectWithTag("Deposit").TryGetComponent<LuggageDeposit>(out LuggageDeposit deposit);
+        //Deposit luggages
+        foreach (Luggage luggage in CarriedLuggage)
+        {
+            DepositingLuggage.Add(luggage);
+            luggage.transform.SetParent(null);
+        }
+        CarriedLuggage.Clear();
+
+        for (int i = DepositingLuggage.Count - 1; i >= 0; i--)
+        {
+            Luggage luggage = DepositingLuggage[i];
+            luggage.SetOutline(true);
+            luggage.transform.SetParent(null);
+            luggage.transform.localScale = Vector3.one;
+            luggage.transform.DOMove(collision.transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), 0.2f);
+            luggage.transform.DOMove(deposit.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (DepositingLuggage.Count - i)).OnComplete(() =>
+            {
+                _inCombo = true;
+                _combo++;
+                _comboText.text = $"X{_combo}";
+                _comboText.rectTransform.DOKill();
+                _comboText.rectTransform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(-45f, 45f));
+                _comboText.rectTransform.localScale = Vector3.one + Vector3.one * Mathf.Clamp(0.05f * _combo, 0f, 2f);
+                _comboText.rectTransform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce);
+                _comboText.rectTransform.DORotate(Vector3.zero, 0.2f).SetEase(Ease.OutBounce);
+                _comboText.DOKill(true);
+                _comboText.alpha = 1f;
+                _comboTimer = _comboResetTime;
+                deposit.Deposit(luggage, _combo);
+                DepositingLuggage.Remove(luggage);
+                OnLuggageAmountChanged?.Invoke();
+            });
+            luggage.transform.rotation = Quaternion.identity;
+        }
+
+        OnLuggageAmountChanged?.Invoke();
+    }
+
+    private void DepositLuggages(LuggageDeposit deposit)
+    {
+        //Deposit luggages
+        foreach (Luggage luggage in CarriedLuggage)
+        {
+            DepositingLuggage.Add(luggage);
+            luggage.transform.SetParent(null, true);
+        }
+        CarriedLuggage.Clear();
+
+        for (int i = DepositingLuggage.Count - 1; i >= 0; i--)
+        {
+            Luggage luggage = DepositingLuggage[i];
+            luggage.SetOutline(true);
+            luggage.transform.SetParent(null);
+            luggage.transform.localScale = Vector3.one;
+            luggage.transform.DOMove(transform.position + Vector3.up * 1f + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), 0.2f);
+            luggage.transform.DOMove(deposit.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (DepositingLuggage.Count - i)).OnComplete(() =>
+            {
+                _inCombo = true;
+                _combo++;
+                _comboText.text = $"X{_combo}";
+                _comboText.rectTransform.DOKill();
+                _comboText.rectTransform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(-45f, 45f));
+                _comboText.rectTransform.localScale = Vector3.one + Vector3.one * Mathf.Clamp(0.05f * _combo, 0f, 2f);
+                _comboText.rectTransform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce);
+                _comboText.rectTransform.DORotate(Vector3.zero, 0.2f).SetEase(Ease.OutBounce);
+                _comboText.DOKill(true);
+                _comboText.alpha = 1f;
+                _comboTimer = _comboResetTime;
+                deposit.Deposit(luggage, _combo);
+                DepositingLuggage.Remove(luggage);
+                OnLuggageAmountChanged?.Invoke();
+            });
+            luggage.transform.rotation = Quaternion.identity;
+        }
+
+        OnLuggageAmountChanged?.Invoke();
+    }
 }
