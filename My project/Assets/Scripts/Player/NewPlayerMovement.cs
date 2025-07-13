@@ -47,7 +47,7 @@ public class NewPlayerMovement : MonoBehaviour
 
         speed = Mathf.Max(minMoveSpeed, speed);
 
-        _rigidbody.linearVelocity = MoveDir * moveSpeed;
+        _rigidbody.linearVelocity = MoveDir * speed;
 
         if (MoveDir != Vector3.zero)
         {

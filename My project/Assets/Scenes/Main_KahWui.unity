@@ -226,13 +226,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9da3adca63ad13f408e9c8960fb6154a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <MaxFever>k__BackingField: 100
+  _feverGainPerLuggage: 10
+  _feverDepletionRate: 10
+  _instantDepositDuration: 5
   _luggageBase: {fileID: 1787596486}
   _luggageCollectionRange: 1
   _luggageOffset: 0.5
-  _instantDepositDuration: 0.2
   _luggageLayer:
     serializedVersion: 2
     m_Bits: 128
+  Fever: 0
 --- !u!50 &48420624
 Rigidbody2D:
   serializedVersion: 5
@@ -319,13 +323,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 852665591}
-  luggage: {fileID: 0}
+  luggage: {fileID: 1787596486}
   moveSpeed: 5
-  minMoveSpeed: 5
+  minMoveSpeed: 2
   sprintMultiplier: 2
-  weightMultiplier: 2
+  weightMultiplier: 0.3
   speedBoostMultiplier: 2
-  speedBoostDuration: 2
+  speedBoostDuration: 5
 --- !u!114 &48420627
 MonoBehaviour:
   m_ObjectHideFlags: 0
