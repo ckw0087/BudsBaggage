@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -17,10 +18,12 @@ public class NewPlayerMovement : MonoBehaviour
 
     private float _currentSpeedBoost = 1f;
     private Coroutine _speedBoostRoutine;
-    private bool _facingRight = true;
+    public bool FacingRight { get; private set; } = true;
 
     public bool IsMoving { get; private set; }
     public Vector3 MoveDir { get; private set; }
+
+    public event Action OnFlip;
 
     private void Awake()
     {
@@ -48,15 +51,15 @@ public class NewPlayerMovement : MonoBehaviour
 
         if (MoveDir != Vector3.zero)
         {
-            if (_facingRight && MoveDir.x < 0)
+            if (FacingRight && MoveDir.x < 0)
             {
-                transform.DORotate(Vector3.up * 180f, 0.2f);
-                _facingRight = false;
+                FacingRight = false;
+                OnFlip?.Invoke();
             }
-            else if (!_facingRight && MoveDir.x > 0)
+            else if (!FacingRight && MoveDir.x > 0)
             {
-                transform.DORotate(Vector3.zero, 0.2f);
-                _facingRight = true;
+                FacingRight = true;
+                OnFlip?.Invoke();
             }
         }
 
