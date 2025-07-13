@@ -148,11 +148,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33e373a4843a4334f800d481eb65d0d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _luggagePrefabs:
-  - {fileID: 2205558546712465921, guid: 943458cdefbbd394685c3f454d1d58aa, type: 3}
-  - {fileID: 2205558546712465921, guid: eb5bd7d1447f21e4fa400a9553f58cd6, type: 3}
-  - {fileID: 2205558546712465921, guid: a886c2ccd520acb4fa9e4fe33971dabc, type: 3}
-  - {fileID: 2205558546712465921, guid: bc91abe8d3370be40893f751fbdfc352, type: 3}
+  _spawnDatas:
+  - prefab: {fileID: 3607126213201198378, guid: 943458cdefbbd394685c3f454d1d58aa, type: 3}
+    spawnChance: 1
+  - prefab: {fileID: 3607126213201198378, guid: eb5bd7d1447f21e4fa400a9553f58cd6, type: 3}
+    spawnChance: 1
+  - prefab: {fileID: 3607126213201198378, guid: bc91abe8d3370be40893f751fbdfc352, type: 3}
+    spawnChance: 1
+  - prefab: {fileID: 3607126213201198378, guid: a886c2ccd520acb4fa9e4fe33971dabc, type: 3}
+    spawnChance: 1
   _spawnInterval: 3
   _maxLuggages: 500
   _minBoundary: -27
@@ -240,6 +244,11 @@ MonoBehaviour:
   _comboText: {fileID: 603763717}
   _comboRatingText: {fileID: 1898308132}
   _comboResetTime: 2
+  _okayColor: {r: 0, g: 0, b: 0, a: 0}
+  _greatColor: {r: 0, g: 0, b: 0, a: 0}
+  _bravoColor: {r: 0, g: 0, b: 0, a: 0}
+  _spectacularColor: {r: 0, g: 0, b: 0, a: 0}
+  _legendaryColor: {r: 0, g: 0, b: 0, a: 0}
   Fever: 0
 --- !u!50 &48420624
 Rigidbody2D:
