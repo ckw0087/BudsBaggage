@@ -22,6 +22,7 @@ public class PlayerLuggageCollector : MonoBehaviour
     [SerializeField] private float _luggageOffset = 0.2f;
     [SerializeField] private LayerMask _luggageLayer;
     [SerializeField] private TMP_Text _comboText;
+    [SerializeField] private TMP_Text _comboRatingText;
     [SerializeField] private float _comboResetTime = 2f;
 
     public float Fever = 0f;
@@ -29,7 +30,7 @@ public class PlayerLuggageCollector : MonoBehaviour
 
     private int _combo = 0;
     private float _comboTimer = 0f;
-
+    private bool _inCombo = false;
 
     public List<Luggage> CarriedLuggage { get; private set; } = new List<Luggage>();
     public List<Luggage> DepositingLuggage { get; private set; } = new List<Luggage>();
@@ -41,9 +42,36 @@ public class PlayerLuggageCollector : MonoBehaviour
 
     private void Update()
     {
-        _comboTimer -= Time.deltaTime;
-        if (_comboTimer <= 0f)
-            _combo = 0;
+        if (_inCombo)
+        {
+            _comboTimer -= Time.deltaTime;
+            if (_comboTimer <= 0f)
+            {
+                _inCombo = false;
+                _comboRatingText.DOKill(true);
+                _comboRatingText.alpha = 1f;
+                string rating = "OKAY!";
+                if (_combo > 100)
+                    rating = "LEGENDARY!";
+                else if (_combo > 50)
+                    rating = "SPECTACULAR!";
+                else if (_combo > 25)
+                    rating = "BRAVO!";
+                else if (_combo > 10)
+                    rating = "GREAT!";
+
+                _comboRatingText.text = rating;
+                _comboRatingText.rectTransform.DOKill();
+                _comboRatingText.rectTransform.localRotation = Quaternion.Euler(0f, 0f, Random.Range(-45f, 45f));
+                _comboRatingText.rectTransform.localScale = Vector3.one + Vector3.one * Mathf.Clamp(0.05f * _combo, 0f, 2f);
+                _comboRatingText.rectTransform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce);
+                _comboRatingText.rectTransform.DORotate(Vector3.zero, 0.2f).SetEase(Ease.OutBounce);
+
+                _comboRatingText.DOFade(0f, 0.5f).SetDelay(0.5f);
+                _comboText.DOFade(0f, 0.5f).SetDelay(0.5f);
+                _combo = 0;
+            }
+        }
 
         if (InFever)
         {
@@ -108,6 +136,8 @@ public class PlayerLuggageCollector : MonoBehaviour
                 luggage.transform.DOMove(collision.gameObject.transform.position, 0.25f).SetDelay(0.2f + 0.1f * (DepositingLuggage.Count - i)).OnComplete(() =>
                 {
                     deposit.Deposit(luggage);
+
+                    _inCombo = true;
                     _combo++;
                     _comboText.text = $"X{_combo}";
                     _comboText.rectTransform.DOKill();
@@ -117,7 +147,6 @@ public class PlayerLuggageCollector : MonoBehaviour
                     _comboText.rectTransform.DORotate(Vector3.zero, 0.2f).SetEase(Ease.OutBounce);
                     _comboText.DOKill(true);
                     _comboText.alpha = 1f;
-                    _comboText.DOFade(0f, 0.5f).SetDelay(0.5f);
 
                     _comboTimer = _comboResetTime;
                     DepositingLuggage.Remove(luggage);
